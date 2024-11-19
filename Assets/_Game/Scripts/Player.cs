@@ -8,22 +8,38 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float speed = 300f;
     [SerializeField] private float jumpForce = 350;
-    [SerializeField] private float cooldownHitTime = 0.5f;
+    // [SerializeField] private float cooldownHitTime = 0.5f;
 
     private bool isGrounded = true;
     private bool isJumping = false;
     private bool isAttacking = false;
+    private bool isDead = false;
 
     private float horizontal;
     private string currentAnimName;
+
+    private int coin = 0;
+
+    private Vector3 savePoint;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        // Debug.Log("Player tag: " + gameObject.tag);
+        SavePoint();
+        
+        OnInit();
+    }
+
+    private void OnInit() {
         isGrounded = true;
         isJumping = false;
         isAttacking = false;
+        isDead = false;
+
+        transform.position = savePoint;
+        ChangeAnim("idle");
     }
 
     void Update()
@@ -37,6 +53,10 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (isDead) {
+            return;
+        }
+
         bool wasGrounded = isGrounded;
 
         isGrounded = CheckGrounded();
@@ -172,6 +192,24 @@ public class Player : MonoBehaviour
         if (!isAttacking)
         {
             StartCoroutine(ThrowCoroutine());
+        }
+    }
+
+    internal void SavePoint() {
+        savePoint = transform.position;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.tag == "Coin") {
+            // Debug.Log("Received coin" + collision.gameObject.name);
+            Destroy(collision.gameObject);
+            coin++;
+        }
+        if (collision.tag == "DeathZone") {
+            ChangeAnim("die");
+            isDead = true;
+
+            Invoke(nameof(OnInit), 0.5f);
         }
     }
 }
