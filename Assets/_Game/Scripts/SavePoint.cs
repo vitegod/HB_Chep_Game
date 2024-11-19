@@ -19,12 +19,12 @@ public class SavePoint : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) {
 
         if (collision.tag == "Player") {
-            Debug.Log("Touched Player");
+            // Debug.Log("Touched Player");
             Player player = GameObject.FindWithTag("Player").GetComponent<Player>();
             if (player != null) {
                 player.SavePoint();
             } else {
-                Debug.LogError("Player component not found!");
+                // Debug.LogError("Player component not found!");
             }
         }
     }

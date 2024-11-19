@@ -1,10 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Character
 {
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private Animator anim;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float speed = 300f;
     [SerializeField] private float jumpForce = 350;
@@ -16,7 +15,7 @@ public class Player : MonoBehaviour
     private bool isDead = false;
 
     private float horizontal;
-    private string currentAnimName;
+    
 
     private int coin = 0;
 
@@ -89,15 +88,6 @@ public class Player : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.1f, groundLayer);
         return hit.collider != null;
-    }
-
-    private void ChangeAnim(string animName)
-    {
-        if (currentAnimName != animName)
-        {
-            currentAnimName = animName;
-            anim.SetTrigger(currentAnimName);
-        }
     }
 
     private void HandleInput()
