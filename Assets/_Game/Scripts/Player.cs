@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
 
         UpdateMovement();
 
-        CheckEdges();
+        // CheckEdges();
     }
 
     private void CheckEdges()
