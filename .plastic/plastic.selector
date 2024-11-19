@@ -1,0 +1,4 @@
+repository "HB_Ninja_2@vietgaming1312004@cloud"
+  path "/"
+    br "/main"
+    co "/main"
